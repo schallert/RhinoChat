@@ -32,5 +32,6 @@
 .rec_message {
 	border-bottom: 1px solid #9f9f9f;
 	width: 100%;
-	padding-bottom: 3px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
