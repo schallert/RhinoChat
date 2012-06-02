@@ -1,3 +1,18 @@
-RhinoChat
+RhinoChat v1
 
-Will add more info soon
+TODO
+
+v1.1
+Limit file size.
+Make it work with multiple images.
+Make sure it's an image that is being sent.
+
+v1.2
+Being able to specify username.
+Automatically resize images based on the window size of the client.
+Change any youtube link into an embedded video.
+
+v1.3
+Nicer interface.
+Rooms.
+Profit??

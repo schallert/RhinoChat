@@ -13,6 +13,8 @@ var io = require('socket.io').listen(app);
 app.configure(function(){
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  // Doesn't work
+  app.use(express.limit('2mb'));
 });
 
 // Routes
