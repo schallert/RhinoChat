@@ -1,19 +1,30 @@
 RhinoChat v1
 
-TODO
+Future:
 
 v1.1
-Limit file size.
-Make it work with multiple images.
-Make sure it's an image that is being sent.
+_ Limit file size.
+_ Make it work with multiple images.
+_ Make sure it's an image that is being sent.
 
 v1.2
-Being able to specify username.
-Automatically resize images based on the window size of the client.
-Change any youtube link into an embedded video.
+_ Being able to specify username.
+_ Automatically resize images based on the window size of the client.
+_ Change any youtube link into an embedded video.
 
 v1.3
+<<<<<<< HEAD
 Non-image files like .doc .xls
 Nicer interface.
 Rooms.
 List of users.
+=======
+_ Nicer interface.
+_ dynamic rooms.
+_ allow symmetric encryption
+
+Ship
+
+v2.0
+_ Allow non-image file transfers
+>>>>>>> c33f46d93e9753eb23cfb1661b26dc560e557ce8
