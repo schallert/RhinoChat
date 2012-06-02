@@ -3,10 +3,11 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="image.js"></script>
+<script type="text/javascript" src="config.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   
-	var socket = io.connect('http://gsundeep.com:1500/');
+	var socket = io.connect(config.ip);
   
 	socket.on('new', function (data) {
 	    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + "</span>: " + data.message + "</div>");
