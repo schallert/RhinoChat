@@ -4,7 +4,8 @@ var socket = io.connect(config.ip);
 
 // Action upon recieving a new chat message.
 socket.on('new', function (data) {
-    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + "</span>: " + data.message + "</div>");
+    var plaintext = sjcl.decrypt("pass", data.message);
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + "</span>: " + plaintext + "</div>");
     scrollToBottom();
 });
 
@@ -27,7 +28,8 @@ function send_message() {
       message = "The message was too large to send.";
       $('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: " + message + "</div>");
     } else {
-      socket.emit('message', message);
+      var ciphertext = sjcl.encrypt("pass", message);
+      socket.emit('message', ciphertext);
     }
     scrollToBottom();
   }
