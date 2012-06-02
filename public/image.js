@@ -1,3 +1,5 @@
+var max_image = 3000000; // This check is also done server-side.
+
 $(document).ready(function() {
 	var upload_box = document.getElementById("chat");
 	upload_box.addEventListener("dragenter", dragEnter, false);
@@ -44,6 +46,11 @@ function handleFiles(files) {
 
 function handleReaderLoadEnd(evt) {
 	// Append image to page.
-	$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: <img OnLoad='scrollToBottom();' src='" + evt.target.result + "' /></div>");
-	socket.emit('image', evt.target.result);
+	if(evt.target.result.length > max_image) {
+		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: This image was too large to send.</div>");	
+		$("#transcript").scrollTop($("#transcript")[0].scrollHeight);
+	} else {
+		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: <img OnLoad='scrollToBottom();' src='" + evt.target.result + "' /></div>");
+		socket.emit('image', evt.target.result);
+	}
 }

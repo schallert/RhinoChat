@@ -1,3 +1,5 @@
+var max_text = 20000; // This check also occurs server-side.
+
 var socket = io.connect(config.ip);
   
 socket.on('new', function (data) {
@@ -10,14 +12,20 @@ socket.on('new_image', function (data) {
 });
 
 function send_message() {
-  if($('#message').val()!="") {
-      var message = $('#message').val().replace(/<(?:.|\n)*?>/gm, '');
+  var message = $('#message').val();
+  if(message!="") {
+    message = message.replace(/<(?:.|\n)*?>/gm, '');
+    $('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: " + message + "</div>");
+    $("#transcript").scrollTop($("#transcript")[0].scrollHeight);
+    $('#message').val("");
+    if(message.length > max_text) {
+      message = "The message was too large to send.";
       $('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: " + message + "</div>");
-      $("#transcript").scrollTop($("#transcript")[0].scrollHeight);
-      $('#message').val("");
-      scrollToBottom();
+    } else {
       socket.emit('message', message);
     }
+    scrollToBottom();
+  }
 }
 
 function scrollToBottom() {
