@@ -1,0 +1,27 @@
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#upload_box {
+	width: 450px;
+	height: 300px;
+	border: 2px solid #DDD;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	background-color: #CCC;
+	text-align: center;
+	color: #BBB;
+}
+
+#upload_label {
+	font-size: 2em;
+	font-family: Arial, sans-serif;
+	position: relative;
+	top: 40%;
+}
