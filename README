@@ -3,17 +3,16 @@ RhinoChat v1
 Future:
 
 v1.1
-_ Limit file size.
+x Limit file size.
 _ Make it work with multiple images.
 _ Make sure it's an image that is being sent.
 
 v1.2
 _ Being able to specify username.
-_ Automatically resize images based on the window size of the client.
+x Automatically resize images based on the window size of the client.
 _ Change any youtube link into an embedded video.
 
 v1.3
-_ Non-image files like .doc .xls
 _ Nicer interface.
 _ Rooms.
 _ List of users.

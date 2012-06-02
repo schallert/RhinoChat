@@ -50,7 +50,9 @@ function handleReaderLoadEnd(evt) {
 		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: This image was too large to send.</div>");	
 		$("#transcript").scrollTop($("#transcript")[0].scrollHeight);
 	} else {
-		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: <img OnLoad='scrollToBottom();' src='" + evt.target.result + "' /></div>");
+		var max_width = 0.9 * window.innerWidth;
+		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: <img OnLoad='scrollToBottom();' style='max-width: " + max_width + 
+			"' src='" + evt.target.result + "' /></div>");
 		socket.emit('image', evt.target.result);
 	}
 }

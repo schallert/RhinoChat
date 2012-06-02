@@ -1,14 +1,19 @@
 var max_text = 20000; // This check also occurs server-side.
 
 var socket = io.connect(config.ip);
-  
+
+// Action upon recieving a new chat message.
 socket.on('new', function (data) {
     $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + "</span>: " + data.message + "</div>");
     scrollToBottom();
 });
 
+// Action upon recieving a new image.
 socket.on('new_image', function (data) {
-    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + "</span>: <img OnLoad='scrollToBottom();' src='" + data.image + "' /></div>");
+    var max_width = 0.9 * window.innerWidth; 
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + 
+      "</span>: <img OnLoad='scrollToBottom();' style='max-width: " + max_width + 
+      "px;' src='" + data.image + "' /></div>");
 });
 
 function send_message() {
