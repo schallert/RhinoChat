@@ -1,27 +1,36 @@
-
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
-#upload_box {
-	width: 450px;
-	height: 300px;
-	border: 2px solid #DDD;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	background-color: #CCC;
-	text-align: center;
-	color: #BBB;
-}
-
-#upload_label {
+#chat {
+	margin: .5%;
+	z-index: 1;
 	font-size: 2em;
-	font-family: Arial, sans-serif;
-	position: relative;
-	top: 40%;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#transcript {
+	padding: .5%;
+	height: 85%;
+	border: 1px solid black;
+	overflow : scroll;
+}
+
+#message {
+	padding: .5%;
+	height: 30px;
+	width: 100%;
+	border: 1px solid black;
+}
+
+.me {
+	font-weight: bold;
+	color: red;
+}
+
+.other {
+	font-weight: bold;
+	color: blue;
+}
+
+.rec_message {
+	border-bottom: 1px solid #9f9f9f;
+	width: 100%;
+	padding-bottom: 3px;
 }

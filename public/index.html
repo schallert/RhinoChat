@@ -3,15 +3,47 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="main.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  
+	var socket = io.connect('http://gsundeep.com:1500/');
+  
+	socket.on('new', function (data) {
+	    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + "</span>: " + data.message + "</div><br>");
+	    scrollToBottom();
+	});
+	
+	socket.on('new_image', function (data) {
+	    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + "</span>: <img OnLoad='scrollToBottom();' src='" + data.image + "' /></div><br>");
+	});
+  
+	function send_message() {
+  		var message = $('#message').val().replace(/<(?:.|\n)*?>/gm, '');
+  		$('#transcript').append("<span class='me'>Me</span>: " + message + "<br>");
+  		$("#transcript").scrollTop($("#transcript")[0].scrollHeight);
+  		$('#message').val("");
+  		socket.emit('message', message);
+	}
+	
+	function scrollToBottom() {
+		$("#transcript").scrollTop($("#transcript")[0].scrollHeight);
+	}
+  
+</script>
 </head>
 <title>Rhino Chat</title>
-<body>
-<p>
-	RhinoChat
-</p>
-<div id="upload_box">
-	<img id="upload_display" src=""/>
-	<span id="upload_label">Place files in this box.</span>
+
+<div id="chat">
+
+	<h1> RhinoChat </h1>
+	<div id="transcript"></div> <br>
+	<input type="text" id="message" name="message" />
+
 </div>
-</body>
 </html>
+
+<script>
+	$("#message").keyup(function(event) {
+		if(event.keyCode == 13) send_message();
+	});
+</script>
