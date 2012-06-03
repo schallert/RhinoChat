@@ -40,6 +40,7 @@ io.sockets.on('connection', function (socket) {
     
     socket.get('nickname', function (err, name) {
       socket.broadcast.emit('new', { "message": data, "nickname": name });
+      socket.broadcast.emit('list', { "userlist": user_list });
     });
   }); // End message
   
@@ -61,6 +62,7 @@ io.sockets.on('connection', function (socket) {
    socket.get('nickname', function (err, name) {
      user_list.splice(user_list.lastIndexOf(name), 1); //remove this index
      socket.broadcast.emit('dead_user', { "nickname": name });
+     socket.broadcast.emit('list', { "userlist": user_list });
    });
   }); // End disconnect
   

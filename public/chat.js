@@ -26,7 +26,16 @@ socket.on('new_image', function (data) {
       "px;' src='" + pt_image + "' /></div>");
 });
 
-// Action upon the joining of a new user.
+// Action when the server sends updated encrytped userlist.
+socket.on('list', function (data) {
+    console.log("\nUserlist is now: ");
+    for(var i = 0; i < data.userlist.length; i++) {
+      var pt_cur_username = sjcl.decrypt(window.password, data.userlist[i]);
+      console.log(pt_cur_username);
+    }
+});
+
+// Action when a new user joins.
 socket.on('new_user', function (data) {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
@@ -34,7 +43,7 @@ socket.on('new_user', function (data) {
     scrollToBottom();
 });
 
-// Action upon the leaving of a new user.
+// Action when a user leaves.
 socket.on('dead_user', function (data) {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
