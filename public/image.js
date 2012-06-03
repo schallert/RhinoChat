@@ -64,6 +64,7 @@ function handleReaderLoadEnd(evt) {
 		var max_width = 0.9 * window.innerWidth;
 		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: <img OnLoad='scrollToBottom();' style='max-width: " + max_width + 
 			"' src='" + evt.target.result + "' /></div>");
-		socket.emit('image', evt.target.result);
+		var ct_image = sjcl.encrypt(window.password, evt.target.result);
+		socket.emit('image', ct_image);
 	}
 }
