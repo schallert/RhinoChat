@@ -57,8 +57,7 @@ function send_message() {
 
 function set_nick() {
 	var nickname = $('#nickname').val();
-  var ciphertext = sjcl.encrypt(password, nickname);
-	socket.emit('nickname', ciphertext);
+	socket.emit('nickname', nickname);
 }
 
 function set_pass() {
