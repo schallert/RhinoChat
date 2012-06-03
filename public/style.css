@@ -5,6 +5,13 @@
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+#prompt {
+	display:none;
+	border: 1px solid black;
+	padding: 10px;
+	background: gray;
+}
+
 #transcript {
 	padding: .5%;
 	height: 80%;

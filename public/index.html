@@ -2,7 +2,9 @@
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="modal.js"></script>
 <script type="text/javascript" src="sjcl.js"></script>
 <script type="text/javascript" src="image.js"></script>
 <script type="text/javascript" src="config.js"></script>
@@ -14,10 +16,17 @@
 <div id="chat">
 
 	<h1> RhinoChat </h1> 
-	Nickname: <input type="text" id="nickname" name="nickname" /> <input type="submit" OnClick="set_nick();" value="Set" /> <br><br>
-	Password: <input type="password" id="password" name="password" /> <input type="submit" OnClick="set_pass();" value="Set" /> <br><br>
+
+	<div id="prompt"> 
+			Nickname: <input type="text" id="nickname" name="nickname" /> <br>
+			Password (optional): <input type="password" id="password" name="password" /> <br>
+			<input type="submit" OnClick="set_nick(); set_pass(); $.modal.close();" value="Join" />
+	</div>
+
 	<div id="transcript"></div> <br>
+	
 	<input type="text" id="message" name="message" />
+	
 	<div id="progressbar"><br></div>
 	
 </div>

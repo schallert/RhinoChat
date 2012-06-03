@@ -1,3 +1,7 @@
+jQuery(function ($) {
+	$("#prompt").modal();
+});
+
 var max_text = 20000; // This check also occurs server-side.
 var password = "_Rhino_"; // Change this if room is protected
 
@@ -57,7 +61,9 @@ function set_nick() {
 }
 
 function set_pass() {
-  password = $('#password').val();
+  if($('#password').val() != "") {
+	  password = $('#password').val();
+  }
 }
 
 function scrollToBottom() {
