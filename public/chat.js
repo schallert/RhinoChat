@@ -1,11 +1,13 @@
 var max_text = 20000; // This check also occurs server-side.
+var password = "Rhino"; // Set this if room is protected
 
 var socket = io.connect(config.ip);
 
 // Action upon recieving a new chat message.
 socket.on('new', function (data) {
-    var plaintext = sjcl.decrypt("pass", data.message);
-    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + "</span>: " + plaintext + "</div>");
+    var plaintext = sjcl.decrypt(password, data.message);
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip +
+      "</span>: " + plaintext + "</div>");
     scrollToBottom();
 });
 
@@ -28,7 +30,7 @@ function send_message() {
       message = "The message was too large to send.";
       $('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: " + message + "</div>");
     } else {
-      var ciphertext = sjcl.encrypt("pass", message);
+      var ciphertext = sjcl.encrypt(password, message);
       socket.emit('message', ciphertext);
     }
     scrollToBottom();

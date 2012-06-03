@@ -4,7 +4,7 @@ Future:
 
 v1.1
 x Limit file size.
-_ Make it work with multiple images.
+x Make it work with multiple images.
 _ Make sure it's an image that is being sent.
 
 v1.2

@@ -36,12 +36,14 @@ function drop(evt) {
 }
 
 function handleFiles(files) {
-	var first_file = files[0];
-	window.first_file_name = first_file.name;
-	window.reader = new FileReader();
+	for(var i = 0; i < files.length; i++) {
+		var cur_file = files[0];
+		window.cur_file_name = cur_file.name;
+		window.reader = new FileReader();
 
-	window.reader.onloadend = handleReaderLoadEnd;
-	window.reader.readAsDataURL(first_file);
+		window.reader.onloadend = handleReaderLoadEnd;
+		window.reader.readAsDataURL(cur_file);
+	}
 }
 
 function handleReaderLoadEnd(evt) {
