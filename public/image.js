@@ -35,14 +35,23 @@ function drop(evt) {
 		handleFiles(files);
 }
 
+// File upload original method written using Riyad Kalla's tutorial
 function handleFiles(files) {
 	for(var i = 0; i < files.length; i++) {
 		var cur_file = files[0];
 		window.cur_file_name = cur_file.name;
 		window.reader = new FileReader();
 
+		window.reader.onprogress = handleReaderProgress;
 		window.reader.onloadend = handleReaderLoadEnd;
 		window.reader.readAsDataURL(cur_file);
+	}
+}
+
+function handleReaderProgress(evt) {
+	if (evt.lengthComputable) {
+		var loaded = (evt.loaded / evt.total);
+		$("#progressbar").progressbar({ value: loaded * 100 });
 	}
 }
 

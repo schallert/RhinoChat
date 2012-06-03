@@ -1,5 +1,5 @@
 var max_text = 20000; // This check also occurs server-side.
-var password = "Rhino"; // Set this if room is protected
+var password = "_Rhino_"; // Change this if room is protected
 
 var socket = io.connect(config.ip);
 

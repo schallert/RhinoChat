@@ -19,6 +19,13 @@
 	border: 1px solid black;
 }
 
+#progressbar {
+	margin-left: 20px;
+	margin-right: 20px;
+	position: relative;
+	top: 75%;
+}
+
 .me {
 	font-weight: bold;
 	color: red;
