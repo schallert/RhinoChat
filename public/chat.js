@@ -1,7 +1,7 @@
 var max_text = 20000; // This check also occurs server-side.
 var password = "_Rhino_"; // Change this if room is protected
 
-var socket = io.connect(config.ip);
+var socket = io.connect();
 
 // Action upon recieving a new chat message.
 socket.on('new', function (data) {
@@ -51,10 +51,13 @@ function send_message() {
   }
 }
 
-function update_nick() {
+function set_nick() {
 	var nickname = $('#nickname').val();
 	socket.emit('nickname', nickname);
-	console.log(nickname);
+}
+
+function set_pass() {
+  password = $('#password').val();
 }
 
 function scrollToBottom() {
