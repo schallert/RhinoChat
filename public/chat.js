@@ -9,9 +9,10 @@ var socket = io.connect();
 
 // Action upon recieving a new chat message.
 socket.on('new', function (data) {
-    var plaintext = sjcl.decrypt(password, data.message);
-    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.nickname +
-      "</span>: " + plaintext + "</div>");
+    var pt_nickname = sjcl.decrypt(password, data.nickname);
+    var pt_message = sjcl.decrypt(password, data.message);
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
+      "</span>: " + pt_message + "</div>");
     scrollToBottom();
 });
 
@@ -25,14 +26,16 @@ socket.on('new_image', function (data) {
 
 // Action upon the joining of a new user.
 socket.on('new_user', function (data) {
-    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.nickname +
+    var pt_nickname = sjcl.decrypt(password, data.nickname);
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       " joined</span></div>");
     scrollToBottom();
 });
 
 // Action upon the leaving of a new user.
 socket.on('dead_user', function (data) {
-    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.nickname +
+    var pt_nickname = sjcl.decrypt(password, data.nickname);
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       " left</span></div>");
     scrollToBottom();
 });
@@ -48,22 +51,23 @@ function send_message() {
       message = "The message was too large to send.";
       $('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: " + message + "</div>");
     } else {
-      var ciphertext = sjcl.encrypt(password, message);
-      socket.emit('message', ciphertext);
+      var ct_message = sjcl.encrypt(password, message);
+      socket.emit('message', ct_message);
     }
     scrollToBottom();
   }
 }
 
-function set_nick() {
-	var nickname = $('#nickname').val();
-	socket.emit('nickname', nickname);
-}
-
 function set_pass() {
   if($('#password').val() != "") {
-	  password = $('#password').val();
+    password = $('#password').val();
   }
+}
+
+function set_nick() {
+	var nickname = $('#nickname').val();
+  var ct_nickname = sjcl.encrypt(password, nickname);
+	socket.emit('nickname', ct_nickname);
 }
 
 function scrollToBottom() {

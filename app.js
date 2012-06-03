@@ -28,9 +28,6 @@ io.sockets.on('connection', function (socket) {
   socket.on('nickname', function (data) {
   	socket.set('nickname', data);
     user_list.push(data);
-
-    console.log(user_list);
-    
   	socket.broadcast.emit('new_user', { "nickname": data });
   }); // End nickname
   
@@ -63,9 +60,6 @@ io.sockets.on('connection', function (socket) {
   socket.on('disconnect', function () {
    socket.get('nickname', function (err, name) {
      user_list.splice(user_list.lastIndexOf(name), 1); //remove this index
-
-     console.log(user_list);
-
      socket.broadcast.emit('dead_user', { "nickname": name });
    });
   }); // End disconnect
