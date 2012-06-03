@@ -38,7 +38,7 @@ function drop(evt) {
 // File upload original method written using Riyad Kalla's tutorial
 function handleFiles(files) {
 	for(var i = 0; i < files.length; i++) {
-		var cur_file = files[0];
+		var cur_file = files[i];
 		window.cur_file_name = cur_file.name;
 		window.reader = new FileReader();
 

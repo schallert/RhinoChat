@@ -6,7 +6,7 @@ var socket = io.connect(config.ip);
 // Action upon recieving a new chat message.
 socket.on('new', function (data) {
     var plaintext = sjcl.decrypt(password, data.message);
-    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip +
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.nickname +
       "</span>: " + plaintext + "</div>");
     scrollToBottom();
 });
@@ -14,9 +14,23 @@ socket.on('new', function (data) {
 // Action upon recieving a new image.
 socket.on('new_image', function (data) {
     var max_width = 0.9 * window.innerWidth; 
-    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.ip + 
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.nickname + 
       "</span>: <img OnLoad='scrollToBottom();' style='max-width: " + max_width + 
       "px;' src='" + data.image + "' /></div>");
+});
+
+// Action upon the joining of a new user.
+socket.on('new_user', function (data) {
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.nickname +
+      " joined</span></div>");
+    scrollToBottom();
+});
+
+// Action upon the leaving of a new user.
+socket.on('dead_user', function (data) {
+    $('#transcript').append("<div class='rec_message'><span class='other'>" + data.nickname +
+      " left</span></div>");
+    scrollToBottom();
 });
 
 function send_message() {
@@ -35,6 +49,12 @@ function send_message() {
     }
     scrollToBottom();
   }
+}
+
+function update_nick() {
+	var nickname = $('#nickname').val();
+	socket.emit('nickname', nickname);
+	console.log(nickname);
 }
 
 function scrollToBottom() {
