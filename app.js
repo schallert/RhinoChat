@@ -73,7 +73,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('disconnect', function () {
 
      socket.get('nickname', function (err, name) {
-	 	socket.broadcast.emit('dead_user', { "nickname": nick });
+	 	socket.broadcast.emit('dead_user', { "nickname": name });
 	 });
 
   }); // End disconnect
