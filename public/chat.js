@@ -31,8 +31,12 @@ socket.on('list', function (data) {
 	$('#userlist').empty();
     var pt_userlist = new Array();
     for(var i = 0; i < data.userlist.length; i++) {
-      pt_userlist[i] = sjcl.decrypt(window.password, data.userlist[i]);
-      $('#userlist').append(pt_userlist[i]+"<br>");
+      try {
+        pt_userlist[i] = sjcl.decrypt(window.password, data.userlist[i]);
+        $('#userlist').append(pt_userlist[i]+"<br>");
+      } catch (err) {
+        console.log(err);
+      }
     }
 });
 
