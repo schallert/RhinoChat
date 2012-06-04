@@ -28,10 +28,11 @@ socket.on('new_image', function (data) {
 
 // Action when the server sends updated encrytped userlist.
 socket.on('list', function (data) {
-    console.log("\nUserlist is now: ");
+	$('#userlist').empty();
+    var pt_userlist = new Array();
     for(var i = 0; i < data.userlist.length; i++) {
-      var pt_cur_username = sjcl.decrypt(window.password, data.userlist[i]);
-      console.log(pt_cur_username);
+      pt_userlist[i] = sjcl.decrypt(window.password, data.userlist[i]);
+      $('#userlist').append(pt_userlist[i]+"<br>");
     }
 });
 

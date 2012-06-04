@@ -21,14 +21,13 @@ var user_list = [];
 
 app.listen(port);
 
-// TODO: FILTER INPUT
-
 io.sockets.on('connection', function (socket) {  
   
   socket.on('nickname', function (data) {
   	socket.set('nickname', data);
     user_list.push(data);
   	socket.broadcast.emit('new_user', { "nickname": data });
+    io.sockets.emit('list', { "userlist": user_list });
   }); // End nickname
   
   socket.on('message', function (data) {
@@ -40,7 +39,6 @@ io.sockets.on('connection', function (socket) {
     
     socket.get('nickname', function (err, name) {
       socket.broadcast.emit('new', { "message": data, "nickname": name });
-      socket.broadcast.emit('list', { "userlist": user_list });
     });
   }); // End message
   
