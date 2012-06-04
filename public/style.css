@@ -13,30 +13,29 @@
 }
 
 #transcript {
-	padding: .5%;
 	height: 80%;
+	width: 85%;
 	border: 1px solid black;
 	overflow : scroll;
 	float: left;
-	min-width: 87%;
 }
 
 #userlist {
-	padding: .5%;
 	height: 80%;
-	width: 10%;
-	min-width: 150px;
+	width: 150px;
 	border: 1px solid black;
 	overflow : scroll;
-	float: left;
+	float : right;
 }
 
 #message {
-	margin-top: 30px;
 	padding: .5%;
 	height: 30px;
 	width: 100%;
 	border: 1px solid black;
+	position:relative;
+	bottom: 30px;
+	margin-top: 30px;
 }
 
 #progressbar {
