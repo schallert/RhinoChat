@@ -1,5 +1,5 @@
 html {
-	background-color: #CCC;	
+	background-color: #F5F5F5;	
 }
 
 #chat {
@@ -74,4 +74,8 @@ html {
 	width: 100%;
 	padding-top: 4px;
 	padding-bottom: 4px;
+}
+
+.rec_message:hover {
+	background-color: #CCC;
 }
