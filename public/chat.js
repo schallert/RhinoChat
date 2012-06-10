@@ -11,8 +11,10 @@ var socket = io.connect();
 socket.on('new', function (data) {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
     var pt_message = sjcl.decrypt(window.password, data.message);
+    var parsed_pt_message = parseMessage(pt_message);
+
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
-      "</span>: " + pt_message + "</div>");
+      "</span>: " + parsed_pt_message + "</div>");
     scrollToBottom();
 });
 
@@ -62,7 +64,9 @@ function send_message() {
   var message = $('#message').val();
   if(message!="") {
     message = message.replace(/<(?:.|\n)*?>/gm, '');
-    $('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: " + message + "</div>");
+    var parsed_message = parseMessage(message);
+
+    $('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: " + parsed_message + "</div>");
     $("#transcript").scrollTop($("#transcript")[0].scrollHeight);
     $('#message').val("");
     if(message.length > max_text) {
@@ -74,6 +78,20 @@ function send_message() {
     }
     scrollToBottom();
   }
+}
+
+// parses given text for URLs and converts them to hyperlinks
+function parseMessage(message) {
+  var urlRegex = /(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+  parsed_message = message.replace(urlRegex, function(url) {  
+                     var httpRegex = /^https?:\/\//;
+                     if(httpRegex.test(url)) {
+                       return '<a href="' + url + '">' + url + '</a>';
+                     } else {
+                       return '<a href="http://' + url + '">' + url + '</a>';
+                     }
+                 });
+  return parsed_message;
 }
 
 function set_pass() {

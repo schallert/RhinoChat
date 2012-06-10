@@ -10,17 +10,17 @@ _ Make sure it's an image that is being sent.
 v1.2
 x Being able to specify username.
 x Automatically resize images based on the window size of the client.
+x Parse and display hyperlinks.
 _ Change any youtube link into an embedded video.
 
 v1.3
 _ Nicer interface.
 _ Rooms.
 x List of users.
-_ dynamic rooms.
-x allow symmetric encryption
+x Allow symmetric encryption.
 
 Ship
 
 v2.0
-_ Allow non-image file transfers
+_ Handle non-image file transfers
 	- Songs / Videos / Docs
