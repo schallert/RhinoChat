@@ -16,14 +16,16 @@ socket.on('new', function (data) {
     scrollToBottom();
 });
 
-// Action upon recieving a new image.
-socket.on('new_image', function (data) {
+// Action upon recieving a new file.
+socket.on('new_file', function (data) {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
-    var pt_image = sjcl.decrypt(window.password, data.image);
+    var pt_file = sjcl.decrypt(window.password, data.file);
+
+
     var max_width = 0.9 * window.innerWidth; 
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname + 
       "</span>: <img OnLoad='scrollToBottom();' style='max-width: " + max_width + 
-      "px;' src='" + pt_image + "' /></div>");
+      "px;' src='" + pt_file + "' /></div>");
 });
 
 // Action when the server sends updated encrytped userlist.

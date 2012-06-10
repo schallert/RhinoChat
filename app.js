@@ -12,8 +12,8 @@ app.configure(function(){
 });
 
 var port = 1500;
-var max_text = 20000;
-var max_image = 3000000;
+var max_message = 20000;
+var max_file = 3000000;
 
 var user_list = [];
 
@@ -31,7 +31,7 @@ io.sockets.on('connection', function (socket) {
   }); // End nickname
   
   socket.on('message', function (data) {
-    if (data.length > max_text) {
+    if (data.length > max_message) {
       data = "This message was too long.";
     } else {
     	data = data.replace(/<(?:.|\n)*?>/gm, '');
@@ -42,19 +42,19 @@ io.sockets.on('connection', function (socket) {
     });
   }); // End message
   
-  socket.on('image', function (data) {
-    if (data.length > max_image) {
-      data = "This image was too large.";
+  socket.on('file', function (data) {
+    if (data.length > max_file) {
+      data = "This file was too large.";
       socket.get('nickname', function (err, name) {
        socket.broadcast.emit('new', { "message": data, "nickname": name });
       });
     } else {
       data = data.replace(/<(?:.|\n)*?>/gm, '');
       socket.get('nickname', function (err, name) {
-       socket.broadcast.emit('new_image', { "image": data, "nickname": name })
+       socket.broadcast.emit('new_file', { "file": data, "nickname": name })
       });
     }
-  }); // End image
+  }); // End file
   
   socket.on('disconnect', function () {
    socket.get('nickname', function (err, name) {

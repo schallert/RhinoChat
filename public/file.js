@@ -1,4 +1,4 @@
-var max_image = 3000000; // This check is also done server-side.
+var max_file = 3000000; // This check is also done server-side.
 
 $(document).ready(function() {
 	var upload_box = document.getElementById("chat");
@@ -56,15 +56,15 @@ function handleReaderProgress(evt) {
 }
 
 function handleReaderLoadEnd(evt) {
-	// Append image to page.
-	if(evt.target.result.length > max_image) {
-		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: This image was too large to send.</div>");	
+	// Append file to page.
+	if(evt.target.result.length > max_file) {
+		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: This file was too large to send.</div>");	
 		$("#transcript").scrollTop($("#transcript")[0].scrollHeight);
 	} else {
 		var max_width = 0.9 * window.innerWidth;
 		$('#transcript').append("<div class='rec_message'><span class='me'>Me</span>: <img OnLoad='scrollToBottom();' style='max-width: " + max_width + 
 			"' src='" + evt.target.result + "' /></div>");
-		var ct_image = sjcl.encrypt(window.password, evt.target.result);
-		socket.emit('image', ct_image);
+		var ct_file = sjcl.encrypt(window.password, evt.target.result);
+		socket.emit('file', ct_file);
 	}
 }
