@@ -1,5 +1,11 @@
+html {
+	background-color: #CCC;	
+}
+
 #chat {
-	margin: .5%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 910px;
 	z-index: 1;
 	font-size: 2em;
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -9,33 +15,41 @@
 	display:none;
 	border: 1px solid black;
 	padding: 10px;
-	background: gray;
+	background: #F5F5F5;
+	border-radius: 1em;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 #transcript {
-	height: 80%;
-	width: 85%;
+	height: 615px;
+	width: 700px;
+	margin-right: 10px;
 	border: 1px solid black;
-	overflow : scroll;
+	border-radius: .5em;
+	padding: 5px;
+	overflow : auto;
 	float: left;
+	background-color: #FFFFFF;
 }
 
 #userlist {
-	height: 80%;
-	width: 150px;
+	height: 615px;
+	width: 170px;
 	border: 1px solid black;
-	overflow : scroll;
-	float : right;
+	border-radius: .5em;
+	padding: 5px;
+	overflow : auto;
+	background-color: #FFFFFF;
 }
 
 #message {
-	padding: .5%;
 	height: 30px;
-	width: 100%;
+	width: 903px;
 	border: 1px solid black;
+	border-radius: .5em;
+	padding: 5px;
 	position:relative;
-	bottom: 30px;
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 #progressbar {

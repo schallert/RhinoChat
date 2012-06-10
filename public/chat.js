@@ -82,7 +82,7 @@ function send_message() {
 
 // parses given text for URLs and converts them to hyperlinks
 function parseMessage(message) {
-  var urlRegex = /(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+    var urlRegex = /(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}\/?/;
   parsed_message = message.replace(urlRegex, function(url) {  
                      var httpRegex = /^https?:\/\//;
                      if(httpRegex.test(url)) {
