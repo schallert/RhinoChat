@@ -62,16 +62,16 @@ socket.on('new_file', function (data) {
 
 // Action when the server sends updated encrytped userlist.
 socket.on('list', function (data) {
-	$('#userlist').empty();
+  try {
+  	$('#userlist').empty();
     var pt_userlist = new Array();
     for(var i = 0; i < data.userlist.length; i++) {
-      try {
         pt_userlist[i] = sjcl.decrypt(window.password, data.userlist[i]);
         $('#userlist').append(pt_userlist[i]+"<br>");
-      } catch (err) {
-        console.log(err);
-      }
     }
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // Action when a new user joins.
