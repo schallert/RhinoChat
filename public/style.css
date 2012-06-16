@@ -18,9 +18,12 @@ html {
 	background: #F5F5F5;
 	border-radius: 1em;
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	position: absolute;
+	width: 215px;
 }
 
 #transcript {
+	position: absolute;
 	height: 615px;
 	width: 700px;
 	margin-right: 10px;
@@ -30,26 +33,32 @@ html {
 	overflow : auto;
 	float: left;
 	background-color: #FFFFFF;
+	left: 50px;
+	top: 50px;
 }
 
 #userlist {
+	position: absolute;
 	height: 615px;
-	width: 170px;
+	width: 100px;
 	border: 1px solid black;
 	border-radius: .5em;
 	padding: 5px;
+	padding-top:0px;
 	overflow : auto;
 	background-color: #FFFFFF;
+	right: 50px;
+	top: 50px;
 }
 
 #message {
 	height: 30px;
-	width: 903px;
+	width: 500px;
 	border: 1px solid black;
 	border-radius: .5em;
 	padding: 5px;
-	position:relative;
-	margin-top: 10px;
+	position:absolute;
+	left: 50px;
 }
 
 #progressbar {
