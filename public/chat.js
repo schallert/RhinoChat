@@ -2,10 +2,30 @@ jQuery(function ($) {
 	$("#prompt").modal();
 });
 
+var socket = io.connect();
+
 var max_text = 20000; // This check also occurs server-side.
 window.password = "_Rhino_"; // Change this if room is protected
 
-var socket = io.connect();
+// Maintain knowledge of focus on window to show unread messages
+var unread = 0;
+var active_element;
+var hasFocus = true;
+window.onblur = function()  { onWindowBlur(); }
+window.onfocus = function() { onWindowFocus(); }
+
+function onWindowFocus()  {
+  clearUnread();
+  hasFocus = true;
+}
+
+function onWindowBlur() {
+  if (active_element != document.activeElement) {
+    active_element = document.activeElement;
+    return;
+  }
+  hasFocus = false;
+}
 
 // Action upon recieving a new chat message.
 socket.on('new', function (data) {
@@ -16,6 +36,7 @@ socket.on('new', function (data) {
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       "</span>: " + parsed_pt_message + "</div>");
     scrollToBottom();
+    incrementUnread();
 });
 
 // Action upon recieving a new file.
@@ -23,11 +44,11 @@ socket.on('new_file', function (data) {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
     var pt_file = sjcl.decrypt(window.password, data.file);
 
-
     var max_width = 0.9 * window.innerWidth; 
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname + 
       "</span>: <img OnLoad='scrollToBottom();' style='max-width: " + max_width + 
       "px;' src='" + pt_file + "' /></div>");
+    incrementUnread();
 });
 
 // Action when the server sends updated encrytped userlist.
@@ -50,6 +71,7 @@ socket.on('new_user', function (data) {
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       " joined</span></div>");
     scrollToBottom();
+    incrementUnread();
 });
 
 // Action when a user leaves.
@@ -58,6 +80,7 @@ socket.on('dead_user', function (data) {
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       " left</span></div>");
     scrollToBottom();
+    incrementUnread();
 });
 
 function send_message() {
@@ -113,4 +136,16 @@ function set_nick() {
 
 function scrollToBottom() {
   $("#transcript").scrollTop($("#transcript")[0].scrollHeight);
+}
+
+function incrementUnread() {
+  if(!hasFocus) {
+    unread++;
+    document.title = "(" + unread + ") Rhino Chat";
+  }
+}
+
+function clearUnread() {
+  unread = 0;
+  document.title = "Rhino Chat";
 }
