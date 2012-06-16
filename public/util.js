@@ -62,5 +62,5 @@ function resizeDelay() {
 
 window.onresize = function(){
 	clearTimeout(SYSTEM.resize);
-	SYSTEM.resize = setTimeout("resizeDelay()",100);
+	SYSTEM.resize = setTimeout("resizeDelay()",10);
 }

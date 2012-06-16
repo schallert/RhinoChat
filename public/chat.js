@@ -7,6 +7,7 @@ var socket = io.connect();
 var max_text = 20000; // This check also occurs server-side.
 window.password = "_Rhino_"; // Change this if room is protected
 
+
 // Maintain knowledge of focus on window to show unread messages
 var unread = 0;
 var active_element;
@@ -29,6 +30,7 @@ function onWindowBlur() {
 
 // Action upon recieving a new chat message.
 socket.on('new', function (data) {
+  try {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
     var pt_message = sjcl.decrypt(window.password, data.message);
     var parsed_pt_message = parseMessage(pt_message);
@@ -37,10 +39,14 @@ socket.on('new', function (data) {
       "</span>: " + parsed_pt_message + "</div>");
     scrollToBottom();
     incrementUnread();
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // Action upon recieving a new file.
 socket.on('new_file', function (data) {
+  try {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
     var pt_file = sjcl.decrypt(window.password, data.file);
 
@@ -49,6 +55,9 @@ socket.on('new_file', function (data) {
       "</span>: <img OnLoad='scrollToBottom();' style='max-width: " + max_width + 
       "px;' src='" + pt_file + "' /></div>");
     incrementUnread();
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // Action when the server sends updated encrytped userlist.
@@ -67,20 +76,28 @@ socket.on('list', function (data) {
 
 // Action when a new user joins.
 socket.on('new_user', function (data) {
+  try {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       " joined</span></div>");
     scrollToBottom();
     incrementUnread();
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // Action when a user leaves.
 socket.on('dead_user', function (data) {
+  try {
     var pt_nickname = sjcl.decrypt(window.password, data.nickname);
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       " left</span></div>");
     scrollToBottom();
     incrementUnread();
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 function send_message() {
@@ -105,7 +122,7 @@ function send_message() {
 
 // parses given text for URLs and converts them to hyperlinks
 function parseMessage(message) {
-    var urlRegex = /(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}\/?/;
+  var urlRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/gi;
   parsed_message = message.replace(urlRegex, function(url) {  
                      var httpRegex = /^https?:\/\//;
                      if(httpRegex.test(url)) {

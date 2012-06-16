@@ -12,10 +12,11 @@ x Being able to specify username.
 x Automatically resize images based on the window size of the client.
 x Parse and display hyperlinks.
 _ Change any youtube link into an embedded video.
+x Show number of unread messages
 
 v1.3
 _ Nicer interface.
-_ Rooms.
+/ Rooms.
 x List of users.
 x Allow symmetric encryption.
 
