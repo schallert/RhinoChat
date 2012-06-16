@@ -63,6 +63,9 @@ socket.on('new_file', function (data) {
 // Action when the server sends updated encrytped userlist.
 socket.on('list', function (data) {
   try {
+    // Test if data can be decrypted before repopulating userlist
+    sjcl.decrypt(window.password, data.userlist[0]);
+
   	$('#userlist').empty();
     var pt_userlist = new Array();
     for(var i = 0; i < data.userlist.length; i++) {
