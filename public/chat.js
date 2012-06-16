@@ -94,10 +94,15 @@ function parseMessage(message) {
   return parsed_message;
 }
 
+function set_room() {
+  // set room logic
+}
+
 function set_pass() {
   if($('#password').val() != "") {
     window.password = $('#password').val();
   }
+  window.password = $('#roomname').val() + window.password;
 }
 
 function set_nick() {
