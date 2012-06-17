@@ -59,7 +59,7 @@ io.sockets.on('connection', function (socket) {
       data = "This file was too large.";
       socket.get('nickname', function (err, name) {
         socket.get('room', function (err, room) {
-                 socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
+          socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
         });
       });
     } else {

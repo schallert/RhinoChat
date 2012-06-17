@@ -1,5 +1,5 @@
 jQuery(function ($) {
-	$("#prompt").modal();
+  $("#prompt").modal();
 });
 
 var socket = io.connect();
@@ -66,11 +66,11 @@ socket.on('list', function (data) {
     // Test if data can be decrypted before repopulating userlist
     sjcl.decrypt(window.password, data.userlist[0]);
 
-  	$('#userlist').empty();
+    $('#userlist').empty();
     var pt_userlist = new Array();
     for(var i = 0; i < data.userlist.length; i++) {
-        pt_userlist[i] = sjcl.decrypt(window.password, data.userlist[i]);
-        $('#userlist').append(pt_userlist[i]+"<br>");
+      pt_userlist[i] = sjcl.decrypt(window.password, data.userlist[i]);
+      $('#userlist').append(pt_userlist[i]+"<br>");
     }
   } catch (err) {
     console.log(err);
@@ -127,33 +127,36 @@ function send_message() {
 function parseMessage(message) {
   var urlRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/gi;
   parsed_message = message.replace(urlRegex, function(url) {  
-                     var httpRegex = /^https?:\/\//;
-			if(url.indexOf("youtube.com") != -1) {
-			    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-			    var match = url.match(regExp);
-			    if (match&&match[7].length==11){
-				var total;
-				var front = "<div style = 'margin-top: -15px;margin-bottom: 10px;margin-left: 35px; box-shadow: 0px 0px 10px black;height: 315px;width: 560px;' id = 'frame'><object width=\"480\" height=\"360\"><param name=\"movie\"value=\"https://www.youtube.com/v/";
-				var middle = 	"?version=3&autohide=1&showinfo=0&modestbranding=1\"></param><param name=\"allowScriptAccess\" value=\"always\"></param><embed src=\"https://www.youtube.com/v/";
-				var tail = "?version=3&autohide=1&showinfo=0&modestbranding=1\"type=\"application/x-shockwave-flash\"allowscriptaccess=\"always\"width=\"560\" height=\"315\"></embed></object></div>";
+    var httpRegex = /^https?:\/\//;
 
-				return front + match[7] + middle + match[7] + tail;
-			    }else{
-				return url;
-			    }
-			}
-                     if(httpRegex.test(url)) {
-                       return '<a href="' + url + '">' + url + '</a>';
-                     } else {
-                       return '<a href="http://' + url + '">' + url + '</a>';
-                     }
-                 });
+    // Parsing for youtube embeds
+    if(url.indexOf("youtube.com") != -1) {
+      var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+      var match = url.match(regExp);
+      if (match&&match[7].length==11){
+        var total;
+        var front = "<div style = 'margin-top: -15px;margin-bottom: 10px;margin-left: 35px; box-shadow: 0px 0px 10px black;height: 315px;width: 560px;' id = 'frame'><object width=\"480\" height=\"360\"><param name=\"movie\"value=\"https://www.youtube.com/v/";
+        var middle = "?version=3&autohide=1&showinfo=0&modestbranding=1\"></param><param name=\"allowScriptAccess\" value=\"always\"></param><embed src=\"https://www.youtube.com/v/";
+        var tail = "?version=3&autohide=1&showinfo=0&modestbranding=1\"type=\"application/x-shockwave-flash\"allowscriptaccess=\"always\"width=\"560\" height=\"315\"></embed></object></div>";
+        return front + match[7] + middle + match[7] + tail;
+      } else {
+        return url;
+      }
+    }
+
+    // Parsing for url embeds
+    if(httpRegex.test(url)) {
+     return '<a href="' + url + '">' + url + '</a>';
+    } else {
+     return '<a href="http://' + url + '">' + url + '</a>';
+    }
+  });
   return parsed_message;
 }
 
 function set_room() {
-	var room = $('#room').val();
-	socket.emit('room', room);
+  var room = $('#room').val();
+  socket.emit('room', room);
 }
 
 function set_pass() {
@@ -164,9 +167,9 @@ function set_pass() {
 }
 
 function set_nick() {
-	var nickname = $('#nickname').val();
+  var nickname = $('#nickname').val();
   var ct_nickname = sjcl.encrypt(window.password, nickname);
-	socket.emit('nickname', ct_nickname);
+  socket.emit('nickname', ct_nickname);
 }
 
 function scrollToBottom() {
