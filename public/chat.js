@@ -138,7 +138,8 @@ function parseMessage(message) {
 }
 
 function set_room() {
-  // set room logic
+	var room = $('#room').val();
+	socket.emit('room', room);
 }
 
 function set_pass() {

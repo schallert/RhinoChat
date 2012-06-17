@@ -22,12 +22,19 @@ var user_list = [];
 app.listen(port);
 
 io.sockets.on('connection', function (socket) {  
-  
+
   socket.on('nickname', function (data) {
   	socket.set('nickname', data);
-    user_list.push(data);
-  	socket.broadcast.emit('new_user', { "nickname": data });
-    io.sockets.emit('list', { "userlist": user_list });
+    	user_list.push(data);
+
+	socket.on('room', function (data) {
+		socket.join(data);
+        	socket.set('room', data);
+	}); // End room
+
+	var room = socket.get('room');
+  	socket.broadcast.to(room).emit('new_user', { "nickname": data });
+    	io.sockets.in(room).emit('list', { "userlist": user_list });
   }); // End nickname
   
   socket.on('message', function (data) {
@@ -38,7 +45,8 @@ io.sockets.on('connection', function (socket) {
     }
     
     socket.get('nickname', function (err, name) {
-      socket.broadcast.emit('new', { "message": data, "nickname": name });
+        var room = socket.get('room');
+	socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
     });
   }); // End message
   
@@ -46,18 +54,22 @@ io.sockets.on('connection', function (socket) {
     if (data.length > max_file) {
       data = "This file was too large.";
       socket.get('nickname', function (err, name) {
-       socket.broadcast.emit('new', { "message": data, "nickname": name });
+       var room = socket.get('room');
+       socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
       });
     } else {
       data = data.replace(/<(?:.|\n)*?>/gm, '');
       socket.get('nickname', function (err, name) {
-       socket.broadcast.emit('new_file', { "file": data, "nickname": name })
+       var room = socket.get('room');
+       socket.broadcast.to(room).emit('new_file', { "file": data, "nickname": name })
       });
     }
   }); // End file
   
   socket.on('disconnect', function () {
    socket.get('nickname', function (err, name) {
+     var room = socket.get('room');
+     socket.leave(room);
      user_list.splice(user_list.lastIndexOf(name), 1); //remove this index
      socket.broadcast.emit('dead_user', { "nickname": name });
      socket.broadcast.emit('list', { "userlist": user_list });
