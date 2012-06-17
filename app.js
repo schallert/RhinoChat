@@ -35,10 +35,10 @@ io.sockets.on('connection', function (socket) {
 
     socket.get('room', function (err, room) {
       socket.broadcast.to(room).emit('new_user', { "nickname": data });
-      io.sockets.clients(room, function (list) {
-        io.sockets.in(room).emit('list', { "userlist": list });
-      });
       room_members_list[room].push(data);
+      io.sockets.clients(room, function (list) {
+        io.sockets.in(room).emit('list', { "userlist": room_members_list[room] });
+      });
     });
   }); // End nickname
   
