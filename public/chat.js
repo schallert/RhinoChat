@@ -31,7 +31,8 @@ function onWindowBlur() {
 // Action upon recieving a new chat message.
 socket.on('new', function (data) {
   try {
-    var pt_nickname = sjcl.decrypt(window.password, data.nickname);
+//    var pt_nickname = sjcl.decrypt(window.password, data.nickname);
+var pt_nickname = data.nickname;
     var pt_message = sjcl.decrypt(window.password, data.message);
     var parsed_pt_message = parseMessage(pt_message);
 
@@ -63,14 +64,14 @@ socket.on('new_file', function (data) {
 // Action when the server sends updated encrytped userlist.
 socket.on('list', function (data) {
   try {
-    // Test if data can be decrypted before repopulating userlist
-    sjcl.decrypt(window.password, data.userlist[0]);
-
+    console.log("data: ");
+    console.log(data);
     $('#userlist').empty();
-    var pt_userlist = new Array();
-    for(var i = 0; i < data.userlist.length; i++) {
-      pt_userlist[i] = sjcl.decrypt(window.password, data.userlist[i]);
-      $('#userlist').append(pt_userlist[i]+"<br>");
+//    var pt_userlist = new Array();
+
+    for(var i = 0; i < data.length; i++) {
+//      pt_userlist[i] = sjcl.decrypt(window.password, userlist[i]);
+      $('#userlist').append(data[i]+"<br>");
     }
   } catch (err) {
     console.log(err);
@@ -80,7 +81,9 @@ socket.on('list', function (data) {
 // Action when a new user joins.
 socket.on('new_user', function (data) {
   try {
-    var pt_nickname = sjcl.decrypt(window.password, data.nickname);
+//    var pt_nickname = sjcl.decrypt(window.password, data.nickname);
+var pt_nickname = data.nickname;
+
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       " joined</span></div>");
     scrollToBottom();
@@ -93,7 +96,10 @@ socket.on('new_user', function (data) {
 // Action when a user leaves.
 socket.on('dead_user', function (data) {
   try {
-    var pt_nickname = sjcl.decrypt(window.password, data.nickname);
+    //var pt_nickname = sjcl.decrypt(window.password, data.nickname);
+
+var pt_nickname = data.nickname;
+
     $('#transcript').append("<div class='rec_message'><span class='other'>" + pt_nickname +
       " left</span></div>");
     scrollToBottom();
@@ -163,13 +169,14 @@ function set_pass() {
   if($('#password').val() != "") {
     window.password = $('#password').val();
   }
-  window.password = $('#roomname').val() + window.password;
+  window.password = $('#room').val() + window.password;
 }
 
 function set_nick() {
   var nickname = $('#nickname').val();
-  var ct_nickname = sjcl.encrypt(window.password, nickname);
-  socket.emit('nickname', ct_nickname);
+//  var ct_nickname = sjcl.encrypt(window.password, nickname);
+//  socket.emit('nickname', ct_nickname);
+  socket.emit('nickname', nickname);
 }
 
 function scrollToBottom() {

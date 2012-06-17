@@ -15,7 +15,7 @@ var port = 1500;
 var max_message = 20000;
 var max_file = 3000000;
 
-var user_list = [];
+var room_members_list = [];
 
 // Routes
 
@@ -26,17 +26,19 @@ io.sockets.on('connection', function (socket) {
   socket.on('room', function (room) {
     socket.join(room);
     socket.set('room', room);
+    if(room_members_list[room] == undefined)
+      room_members_list[room] = [];
   }); // End room
 
   socket.on('nickname', function (data) {
     socket.set('nickname', data);
-    user_list.push(data);
 
     socket.get('room', function (err, room) {
       socket.broadcast.to(room).emit('new_user', { "nickname": data });
       io.sockets.clients(room, function (list) {
         io.sockets.in(room).emit('list', { "userlist": list });
       });
+      room_members_list[room].push(data);
     });
   }); // End nickname
   
@@ -52,6 +54,10 @@ io.sockets.on('connection', function (socket) {
         socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
       });
     });
+
+    console.log("ROOM VAR BELOW");
+    console.log(room_members_list);
+
   }); // End message
   
   socket.on('file', function (data) {
@@ -75,12 +81,12 @@ io.sockets.on('connection', function (socket) {
   socket.on('disconnect', function () {
     socket.get('nickname', function (err, name) {
       socket.get('room', function (err, room) {
-        socket.leave(room);
-        user_list.splice(user_list.lastIndexOf(name), 1); //remove this index
+        //remove the entry at index containing that name
+        room_members_list[room].splice(room_members_list[room].lastIndexOf(name), 1);
+
         socket.broadcast.to(room).emit('dead_user', { "nickname": name });
-        io.sockets.clients(room, function (list) {
-          io.sockets.in(room).emit('list', { "userlist": list });
-        });
+        io.sockets.in(room).emit('list', { "userlist": room_members_list[room] });
+        socket.leave(room);
       });
     });
   }); // End disconnect
