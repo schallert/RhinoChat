@@ -128,6 +128,23 @@ function parseMessage(message) {
   var urlRegex = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/gi;
   parsed_message = message.replace(urlRegex, function(url) {  
                      var httpRegex = /^https?:\/\//;
+			if(url.indexOf("youtube.com") != -1) {
+				//return "<input type = 'button' value = 'sau'></input>";
+			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+			    var match = url.match(regExp);
+			    if (match&&match[7].length==11){
+				var total;
+									var front = "<div style = 'box-shadow: 0px 0px 10px black;height: 315px;width: 560px;' id = 'frame'><object width=\"480\" height=\"360\"><param name=\"movie\"value=\"https://www.youtube.com/v/";
+					var middle = 	"?version=3&autohide=1&showinfo=0&modestbranding=1\"></param><param name=\"allowScriptAccess\" value=\"always\"></param><embed src=\"https://www.youtube.com/v/";
+					var tail = "?version=3&autohide=1&showinfo=0&modestbranding=1\"type=\"application/x-shockwave-flash\"allowscriptaccess=\"always\"width=\"560\" height=\"315\"></embed></object></div>";
+
+					total = front + match[7] + middle + match[7] + tail;
+
+				return total;
+			    }else{
+				alert("Url incorrecta");
+			    }
+			}
                      if(httpRegex.test(url)) {
                        return '<a href="' + url + '">' + url + '</a>';
                      } else {
