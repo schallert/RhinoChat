@@ -36,9 +36,7 @@ io.sockets.on('connection', function (socket) {
     socket.get('room', function (err, room) {
       socket.broadcast.to(room).emit('new_user', { "nickname": data });
       room_members_list[room].push(data);
-      io.sockets.clients(room, function (list) {
-        io.sockets.in(room).emit('list', { "userlist": room_members_list[room] });
-      });
+      io.sockets.in(room).emit('list', { "userlist": room_members_list[room] });
     });
   }); // End nickname
   
@@ -54,9 +52,6 @@ io.sockets.on('connection', function (socket) {
         socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
       });
     });
-
-    console.log("ROOM VAR BELOW");
-    console.log(room_members_list);
 
   }); // End message
   
