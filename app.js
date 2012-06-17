@@ -24,33 +24,33 @@ app.listen(port);
 io.sockets.on('connection', function (socket) {  
 
   socket.on('room', function (room) {
-        socket.join(room);
-        socket.set('room', room);
+    socket.join(room);
+    socket.set('room', room);
   }); // End room
 
   socket.on('nickname', function (data) {
-  	socket.set('nickname', data);
-    	user_list.push(data);
+    socket.set('nickname', data);
+    user_list.push(data);
 
-	socket.get('room', function (err, room) {
-	  	socket.broadcast.to(room).emit('new_user', { "nickname": data });
-		io.sockets.clients(room, function (list) {
-    			io.sockets.in(room).emit('list', { "userlist": list });
-		});
-	});
+    socket.get('room', function (err, room) {
+      socket.broadcast.to(room).emit('new_user', { "nickname": data });
+      io.sockets.clients(room, function (list) {
+        io.sockets.in(room).emit('list', { "userlist": list });
+      });
+    });
   }); // End nickname
   
   socket.on('message', function (data) {
     if (data.length > max_message) {
       data = "This message was too long.";
     } else {
-    	data = data.replace(/<(?:.|\n)*?>/gm, '');
+      data = data.replace(/<(?:.|\n)*?>/gm, '');
     }
     
     socket.get('nickname', function (err, name) {
-	socket.get('room', function (err, room) {
-		socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
-    	});
+      socket.get('room', function (err, room) {
+        socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
+      });
     });
   }); // End message
   
@@ -58,31 +58,31 @@ io.sockets.on('connection', function (socket) {
     if (data.length > max_file) {
       data = "This file was too large.";
       socket.get('nickname', function (err, name) {
-	socket.get('room', function (err, room) {
-       		socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
-	});
+        socket.get('room', function (err, room) {
+                 socket.broadcast.to(room).emit('new', { "message": data, "nickname": name });
+        });
       });
     } else {
       data = data.replace(/<(?:.|\n)*?>/gm, '');
       socket.get('nickname', function (err, name) {
-	socket.get('room', function (err, room) {
-       		socket.broadcast.to(room).emit('new_file', { "file": data, "nickname": name })
-	});
+        socket.get('room', function (err, room) {
+          socket.broadcast.to(room).emit('new_file', { "file": data, "nickname": name })
+        });
       });
     }
   }); // End file
   
   socket.on('disconnect', function () {
-   socket.get('nickname', function (err, name) {
-	socket.get('room', function (err, room) {
-	     socket.leave(room);
-	     user_list.splice(user_list.lastIndexOf(name), 1); //remove this index
-	     socket.broadcast.to(room).emit('dead_user', { "nickname": name });
-	     io.sockets.clients(room, function (list) {
-             		io.sockets.in(room).emit('list', { "userlist": list });
-             });
-	});
-   });
+    socket.get('nickname', function (err, name) {
+      socket.get('room', function (err, room) {
+        socket.leave(room);
+        user_list.splice(user_list.lastIndexOf(name), 1); //remove this index
+        socket.broadcast.to(room).emit('dead_user', { "nickname": name });
+        io.sockets.clients(room, function (list) {
+          io.sockets.in(room).emit('list', { "userlist": list });
+        });
+      });
+    });
   }); // End disconnect
   
 }); // End socket.io 
