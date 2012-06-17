@@ -64,14 +64,15 @@ socket.on('new_file', function (data) {
 // Action when the server sends updated encrytped userlist.
 socket.on('list', function (data) {
   try {
-    console.log("data: ");
-    console.log(data);
     $('#userlist').empty();
 //    var pt_userlist = new Array();
 
-    for(var i = 0; i < data.length; i++) {
-//      pt_userlist[i] = sjcl.decrypt(window.password, userlist[i]);
-      $('#userlist').append(data[i]+"<br>");
+    for(var i = 0; i <= data.userlist.length; i++) {
+	if (data.userlist[i] != undefined) {
+	//      pt_userlist[i] = sjcl.decrypt(window.password, userlist[i]);
+        	$('#userlist').append(data.userlist[i]+"<br>");
+	    	console.log(data.userlist[i]);
+    	} 
     }
   } catch (err) {
     console.log(err);
