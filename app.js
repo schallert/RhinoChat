@@ -34,7 +34,9 @@ io.sockets.on('connection', function (socket) {
 
 	socket.get('room', function (err, room) {
 	  	socket.broadcast.to(room).emit('new_user', { "nickname": data });
-    		io.sockets.in(room).emit('list', { "userlist": user_list });
+		io.sockets.clients(room, function (list) {
+    			io.sockets.in(room).emit('list', { "userlist": list });
+		});
 	});
   }); // End nickname
   
@@ -76,7 +78,9 @@ io.sockets.on('connection', function (socket) {
 	     socket.leave(room);
 	     user_list.splice(user_list.lastIndexOf(name), 1); //remove this index
 	     socket.broadcast.to(room).emit('dead_user', { "nickname": name });
-	     socket.broadcast.to(room).emit('list', { "userlist": user_list });
+	     io.sockets.clients(room, function (list) {
+             		io.sockets.in(room).emit('list', { "userlist": list });
+             });
 	});
    });
   }); // End disconnect
