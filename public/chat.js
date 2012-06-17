@@ -129,20 +129,17 @@ function parseMessage(message) {
   parsed_message = message.replace(urlRegex, function(url) {  
                      var httpRegex = /^https?:\/\//;
 			if(url.indexOf("youtube.com") != -1) {
-				//return "<input type = 'button' value = 'sau'></input>";
-			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+			    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 			    var match = url.match(regExp);
 			    if (match&&match[7].length==11){
 				var total;
-									var front = "<div style = 'box-shadow: 0px 0px 10px black;height: 315px;width: 560px;' id = 'frame'><object width=\"480\" height=\"360\"><param name=\"movie\"value=\"https://www.youtube.com/v/";
-					var middle = 	"?version=3&autohide=1&showinfo=0&modestbranding=1\"></param><param name=\"allowScriptAccess\" value=\"always\"></param><embed src=\"https://www.youtube.com/v/";
-					var tail = "?version=3&autohide=1&showinfo=0&modestbranding=1\"type=\"application/x-shockwave-flash\"allowscriptaccess=\"always\"width=\"560\" height=\"315\"></embed></object></div>";
+				var front = "<div style = 'margin-top: -15px;margin-bottom: 10px;margin-left: 35px; box-shadow: 0px 0px 10px black;height: 315px;width: 560px;' id = 'frame'><object width=\"480\" height=\"360\"><param name=\"movie\"value=\"https://www.youtube.com/v/";
+				var middle = 	"?version=3&autohide=1&showinfo=0&modestbranding=1\"></param><param name=\"allowScriptAccess\" value=\"always\"></param><embed src=\"https://www.youtube.com/v/";
+				var tail = "?version=3&autohide=1&showinfo=0&modestbranding=1\"type=\"application/x-shockwave-flash\"allowscriptaccess=\"always\"width=\"560\" height=\"315\"></embed></object></div>";
 
-					total = front + match[7] + middle + match[7] + tail;
-
-				return total;
+				return front + match[7] + middle + match[7] + tail;
 			    }else{
-				alert("Url incorrecta");
+				return url;
 			    }
 			}
                      if(httpRegex.test(url)) {
